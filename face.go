@@ -47,7 +47,7 @@ func SquaredEuclideanDistance(d1 Descriptor, d2 Descriptor) (sum float64) {
 		sum = sum + math.Pow(float64(d2[i]-d1[i]), 2)
 	}
 
-	return sum
+	return math.Sqrt(sum)
 }
 
 // New creates new face with the provided parameters.
