@@ -63,7 +63,7 @@ public:
 		detector_ = get_frontal_face_detector();
 
 		std::string dir = model_dir;
-		std::string shape_predictor_path = dir + "/shape_predictor_5_face_landmarks.dat";
+		std::string shape_predictor_path = dir + "/shape_predictor_68_face_landmarks.dat";
 		std::string resnet_path = dir + "/dlib_face_recognition_resnet_model_v1.dat";
 		std::string cnn_resnet_path = dir + "/mmod_human_face_detector.dat";
 
