@@ -249,7 +249,7 @@ func (rec *Recognizer) RecognizeCNN(imgData []byte) (faces []Face, err error) {
 // RecognizeSingle returns face if it's the only face on the image or
 // nil otherwise. Only JPEG format is currently supported. Thread-safe.
 func (rec *Recognizer) RecognizeSingle(imgData []byte) (face *Face, err error) {
-	faces, err := rec.recognize(0, imgData, 1)
+	faces, err := rec.recognize(0, imgData, 0)
 	if err != nil || len(faces) != 1 {
 		return
 	}
@@ -258,7 +258,7 @@ func (rec *Recognizer) RecognizeSingle(imgData []byte) (face *Face, err error) {
 }
 
 func (rec *Recognizer) RecognizeSingleCNN(imgData []byte) (face *Face, err error) {
-	faces, err := rec.recognize(1, imgData, 1)
+	faces, err := rec.recognize(1, imgData, 0)
 	if err != nil || len(faces) != 1 {
 		return
 	}
