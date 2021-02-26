@@ -1,4 +1,4 @@
-# go-face [![Build Status](https://travis-ci.org/Kagami/go-face.svg?branch=master)](https://travis-ci.org/Kagami/go-face) [![GoDoc](https://godoc.org/github.com/Kagami/go-face?status.svg)](https://godoc.org/github.com/Kagami/go-face)
+# go-face [![Build Status](https://travis-ci.org/Kagami/go-face.svg?branch=master)](https://travis-ci.org/Kagami/go-face) [![GoDoc](https://godoc.org/github.com/jacoblai/go-face?status.svg)](https://godoc.org/github.com/jacoblai/go-face)
 
 go-face implements face recognition for Go using [dlib](http://dlib.net), a
 popular machine learning toolkit. Read
@@ -57,12 +57,12 @@ process.
 
 Currently `shape_predictor_5_face_landmarks.dat`, `mmod_human_face_detector.dat` and
 `dlib_face_recognition_resnet_model_v1.dat` are required. You may download them
-from [go-face-testdata](https://github.com/Kagami/go-face-testdata) repo:
+from [go-face-testdata](https://github.com/jacoblai/go-face-testdata) repo:
 
 ```bash
-wget https://github.com/Kagami/go-face-testdata/raw/master/models/shape_predictor_5_face_landmarks.dat
-wget https://github.com/Kagami/go-face-testdata/raw/master/models/dlib_face_recognition_resnet_model_v1.dat
-wget https://github.com/Kagami/go-face-testdata/raw/master/models/mmod_human_face_detector.dat
+wget https://github.com/jacoblai/go-face-testdata/raw/master/models/shape_predictor_5_face_landmarks.dat
+wget https://github.com/jacoblai/go-face-testdata/raw/master/models/dlib_face_recognition_resnet_model_v1.dat
+wget https://github.com/jacoblai/go-face-testdata/raw/master/models/mmod_human_face_detector.dat
 ```
 
 ## Usage
@@ -70,16 +70,16 @@ wget https://github.com/Kagami/go-face-testdata/raw/master/models/mmod_human_fac
 To use go-face in your Go code:
 
 ```go
-import "github.com/Kagami/go-face"
+import "github.com/jacoblai/go-face"
 ```
 
 To install go-face in your $GOPATH:
 
 ```bash
-go get github.com/Kagami/go-face
+go get github.com/jacoblai/go-face
 ```
 
-For further details see [GoDoc documentation](https://godoc.org/github.com/Kagami/go-face).
+For further details see [GoDoc documentation](https://godoc.org/github.com/jacoblai/go-face).
 
 ## Example
 
@@ -91,11 +91,11 @@ import (
 	"log"
 	"path/filepath"
 
-	"github.com/Kagami/go-face"
+	"github.com/jacoblai/go-face"
 )
 
 // Path to directory with models and test images. Here it's assumed it
-// points to the <https://github.com/Kagami/go-face-testdata> clone.
+// points to the <https://github.com/jacoblai/go-face-testdata> clone.
 const dataDir = "testdata"
 
 // This example shows the basic usage of the package: create an
@@ -161,7 +161,7 @@ Run with:
 ```bash
 mkdir -p ~/go && cd ~/go  # Or cd to your $GOPATH
 mkdir -p src/go-face-example && cd src/go-face-example
-git clone https://github.com/Kagami/go-face-testdata testdata
+git clone https://github.com/jacoblai/go-face-testdata testdata
 edit main.go  # Paste example code
 go get && go run main.go
 ```
