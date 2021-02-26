@@ -63,7 +63,7 @@ public:
 		detector_ = get_frontal_face_detector();
 
 		std::string dir = model_dir;
-		std::string shape_predictor_path = dir + "/shape_predictor_5_face_landmarks.dat";
+		std::string shape_predictor_path = dir + "/shape_predictor_68_face_landmarks.dat";
 		std::string resnet_path = dir + "/dlib_face_recognition_resnet_model_v1.dat";
 		std::string cnn_resnet_path = dir + "/mmod_human_face_detector.dat";
 
@@ -74,6 +74,22 @@ public:
 		jittering = 0;
 		size = 150;
 		padding = 0.25;
+	}
+
+	std::tuple<std::vector<rectangle>>
+	Detect(const matrix<rgb_pixel>& img, int type) {
+	    std::vector<rectangle> rects;
+	    if(type == 0) {
+        	std::lock_guard<std::mutex> lock(detector_mutex_);
+        	rects = detector_(img);
+        } else {
+        	std::lock_guard<std::mutex> lock(cnn_net_mutex_);
+        	auto dets = cnn_net_(img);
+            for (auto&& d : dets) {
+                rects.push_back(d.rect);
+            }
+        }
+        return {std::move(rects)};
 	}
 
 	std::tuple<std::vector<rectangle>, std::vector<descriptor>, std::vector<full_object_detection>>
@@ -166,6 +182,39 @@ facerec* facerec_init(const char* model_dir) {
 void facerec_config(facerec* rec, unsigned long size, double padding, int jittering) {
 	FaceRec* cls = (FaceRec*)(rec->cls);
 	cls->Config(size,padding,jittering);
+}
+
+faceret* facerec_detect(facerec* rec, const uint8_t* img_data,int len,int type){
+	faceret* ret = (faceret*)calloc(1, sizeof(faceret));
+	FaceRec* cls = (FaceRec*)(rec->cls);
+	matrix<rgb_pixel> img;
+	std::vector<rectangle> rects;
+
+	try {
+		// TODO(Kagami): Support more file types?
+		load_mem_jpeg(img, img_data, len);
+		std::tie(rects) = cls->Detect(img,type);
+	} catch(image_load_error& e) {
+		ret->err_str = strdup(e.what());
+		ret->err_code = IMAGE_LOAD_ERROR;
+		return ret;
+	} catch (std::exception& e) {
+		ret->err_str = strdup(e.what());
+		ret->err_code = UNKNOWN_ERROR;
+		return ret;
+	}
+	ret->num_faces = rects.size();
+    if (ret->num_faces == 0)
+		return ret;
+	ret->rectangles = (long*)malloc(ret->num_faces * RECT_SIZE);
+	for (int i = 0; i < ret->num_faces; i++) {
+		long* dst = ret->rectangles + i * RECT_LEN;
+		dst[0] = rects[i].left();
+		dst[1] = rects[i].top();
+		dst[2] = rects[i].right();
+		dst[3] = rects[i].bottom();
+	}
+	return ret;
 }
 
 faceret* facerec_recognize(facerec* rec, const uint8_t* img_data, int len, int max_faces,int type) {
