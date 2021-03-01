@@ -51,7 +51,7 @@ func SquaredEuclideanDistance(d1 Descriptor, d2 Descriptor) (sum float64) {
 }
 
 func EuclideanDistance(p1, p2 image.Point) float64 {
-	return math.Sqrt(math.Pow(float64(p1.X-p2.X), 2) + math.Pow(float64(p1.Y-p2.Y), 2))
+	return math.Sqrt(math.Pow(float64(p2.X-p1.X), 2) + math.Pow(float64(p2.Y-p1.Y), 2))
 }
 
 // New creates new face with the provided parameters.
